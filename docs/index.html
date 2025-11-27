@@ -6,9 +6,11 @@
             const el = document.getElementById('path9');
             if (!el) return;
 
-            const cx = 180; // center x of the diamond
-            const cy = 40;  // center y of the diamond
-            let start = null;
+            const d = el.getAttribute('d');
+            const bbox = el.getBBox();
+            const cx = bbox.x + bbox.width / 2;
+            const cy = bbox.y + bbox.height / 2;
+            let start = null;   
 
             function step(ts) {
                 if (start === null) start = ts;
