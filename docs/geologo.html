@@ -1,0 +1,151 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .logo-wrapper {
+            --map-width: 75%;
+            --map-shift: 8%;
+            --nav-offset: 35%;
+            /* tweak to line up with the transparent gap */
+
+            display: grid;
+            place-items: center;
+            width: min(90vw, 800px);
+            margin-inline: auto;
+            /* keeps the wrapper centered */
+            overflow: visible;
+            position: relative;
+        }
+
+        .logo-wrapper img,
+        #world-map,
+        .logo-nav {
+            grid-area: 1 / 1;
+        }
+
+        .logo-wrapper img {
+            width: 100%;
+            height: auto;
+            z-index: 1;
+        }
+
+        #world-map {
+            width: var(--map-width);
+            aspect-ratio: 8 / 5;
+            transform: translateX(var(--map-shift));
+            opacity: 0.5;
+            background: url('world-white-simplified.svg') repeat-x 0 50% / contain;
+            pointer-events: none;
+        }
+
+        .logo-nav {
+            z-index: 2;
+            position: absolute;
+            bottom: var(--nav-top);
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            pointer-events: auto;
+            padding-top: var(--nav-offset);
+            /* vertical offset scales with width */
+        }
+
+        .logo-nav .nav-content {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .navLink {
+            border: 1px solid white;
+            background-color: rgb(31 32 32);
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 16px;
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5))
+        }
+
+        .navLink:hover,
+        .tryform-button:hover {
+            background-color: mediumblue;
+        }
+
+        .tryform-input {
+            border: 1px solid white;
+            background-color: black;
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 16px;
+        }
+
+        .tryform-button {
+            border: 1px solid white;
+            background-color: rgb(31 32 32);
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 16px;
+            border-radius: 0.5rem;
+        }
+    </style>
+    <script>
+        // Wait for load
+        window.addEventListener('load', () => {
+            // Animate the world image - constantly scroll slowly from left to right using animation frame and elapsed
+            function animateWorld(elapsed) {
+                const worldImage = document.querySelector('#world-map');
+                worldImage.style.backgroundPositionX = `-${10 * (elapsed / 1000)}px`;
+                requestAnimationFrame((timestamp) => animateWorld(timestamp));
+            }
+            animateWorld(0);
+        });
+    </script>
+</head>
+
+<body>
+    <div class="mt-5 flex items-center flex-col justify-center h-screen">
+        <div class="logo-wrapper">
+            <div id="world-map" aria-hidden="true"></div>
+            <img src="geo-logo-with-gap.svg" alt="Geolocation API Logo">
+            <nav class="logo-nav">
+                <div class="nav-content">
+                    <a class="navLink">
+                        Log In
+                    </a>
+                    <a class="navLink">
+                        Register
+                    </a>
+                    <a class="navLink">
+                        Contact
+                    </a>
+                </div>
+            </nav>
+
+        </div>
+        <div class="text-white PT-5">
+            Try it for free:
+        </div>
+        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+            <div class="pt-2 text-white">
+                <div>Latitude:</div>
+                <input class="tryform-input" type="text" placeholder="54.2277581">
+            </div>
+            <div class="text-white">
+                <div>Longitude:</div>
+                <input class="tryform-input" type="text" placeholder="-4.9017697">
+            </div>
+            <div>
+                <button class="tryform-button">Try it</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
